@@ -1,9 +1,6 @@
 'use strict'
 
-const rp = require('request-promise')
-
-const Crawler = require('./crawlerData')
-
+const Crawler = require('./generateCrawlerConfig')
 const crawlerGeneric = require('./genericCrawlerPromise.js')(Crawler)
 crawlerGeneric
   .then(Crawler.PROMISE_SUCCESS)
