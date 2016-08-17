@@ -179,6 +179,10 @@ Para deixar bem atomizado nosso código separei em 4 partes:
 - crawlerDataFactory
 - genericCrawler
 
+Pois com isso conseguimos separar os valores que irão para o *crawler*, `crawlerData`, para depois pegarmos esses valores e gerarmos o objeto *"especifico"** para o nosso *crawler* via 1 *Factory*.
+
+Esse objeto de **configuração** que é retornado será repassado para `genericCrawler` que retornará uma *Promise*, será nesse retorno que definiremos as funções de sucesso e erro da *Promise*, porém **essas funções já estão contidas no objeto de configuração** retornado anteriormente.
+
 Além disso devemos criar 1 pasta para cada *crawler*, por exemplo para nós será: `request-promise_cheerio`
 
 Sempre mantendo o padrão:
