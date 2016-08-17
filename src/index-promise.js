@@ -70,7 +70,7 @@ const callback = (obj) => {
 }
 const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
   if(options.multi) {
-    for(let i=options.indexSTART; i<=options.indexEND; i++) {
+    for(let i=options.INDEX_START; i<=options.INDEX_END; i++) {
       optionsRequestMulti =  {
           uri: BASE_URL_PAGE+i,
           transform: function (body) {
@@ -89,26 +89,6 @@ const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
   }
 }
 
-// crawlerGeneric(BASE_URL, ElementList, Fields, options, callback)
+crawlerGeneric(BASE_URL, ElementList, Fields, options, callback)
 
 
-let optionsRequestMulti = {
-  uri: BASE_URL_PAGE+2,
-  transform: function (body) {
-      return cheerio.load(body);
-  }
-}
-const optionsMulti = {
-  multi: true,
-  indexSTART: 2,
-  indexEND: 10,
-  conditionGetValues: (i) => i>0 && i<5,
-  conditionBreakList: (i) => i >= 5
-}
-// const crawlerGenericMulti = (BASE_URL_PAGE, ElementList, Fields, options, callback) => {
-//     rp(optionsRequestMulti)
-//     .then(success)
-//     .catch(error)
-//   // }
-// }
-crawlerGeneric(BASE_URL, ElementList, Fields, optionsMulti, callback)
