@@ -188,8 +188,10 @@ Então nosso algortimo ficará assim:
 ```
 1. Pega valores de `crawlerData`
 2. Passa o `crawlerData` para o gerador de configuração, `generateConfig`
-esse gerador irá setar os valores de `crawlerData` com o `crawlerDataFactory` e retornar o objeto de configuração para o *crawler*
-3. Passa o objeto de configuração para `genericCrawler` que retornará uma *Promise* onde definimos as funções de sucesso e erro.
+esse gerador irá setar os valores de `crawlerData` com o `crawlerDataFactory`
+e retornar o objeto de configuração para o *crawler*
+3. Passa o objeto de configuração para `genericCrawler` que retornará uma
+*Promise* onde definimos as funções de sucesso e erro.
 ```
 
 Além disso devemos criar 1 pasta para cada *crawler*, por exemplo para nós será: `request-promise_cheerio`
