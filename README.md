@@ -200,8 +200,8 @@ const CrawlerData = require('./request-promise_cheerio/crawlerData')
 const CrawlerConfig = require('./request-promise_cheerio/generateCrawlerConfig')(CrawlerData)
 const crawlerGeneric = require('./request-promise_cheerio/genericCrawlerRequestCheerio')(CrawlerConfig)
 crawlerGeneric
-  .then(Crawler.PROMISE_SUCCESS)
-  .catch(Crawler.PROMISE_ERROR)
+  .then(CrawlerConfig.PROMISE_SUCCESS)
+  .catch(CrawlerConfig.PROMISE_ERROR)
 ```
 
 
