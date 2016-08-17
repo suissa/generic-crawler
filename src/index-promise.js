@@ -69,26 +69,15 @@ const callback = (obj) => {
   return false
 }
 const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
-  if(options.multi) {
-    for(let i=options.INDEX_START; i<=options.INDEX_END; i++) {
-      optionsRequestMulti =  {
-          uri: BASE_URL_PAGE+i,
-          transform: function (body) {
-              return cheerio.load(body);
-          }
-      }
-      rp(optionsRequestMulti)
-      .then(success)
-      .catch(error)
-    }
-  }
-  else {
-    rp(optionsRequest)
-    .then(success)
-    .catch(error)
-  }
+  return rp(optionsRequest)
+  .then(success)
+  .catch(error)
 }
 
 crawlerGeneric(BASE_URL, ElementList, Fields, options, callback)
 
+// Dados:  { Instituicao: 'UEPB (Universidade Estadual da Para�ba) ',
+// Departamento: 'Biologia',
+// Endereco: 'Centro de Ci�ncias Biol�gicas e da Sa�de, N�351 - Bairro: Universit�rio - CEP:58429-500 ',
+// MunicipioUF: 'Campina Grande/PB ' }
 
