@@ -65,7 +65,7 @@ const Crawler = {
   }
 }
 
-const crawlerGeneric = require('./genericCrawlerPromise.js')(Crawler)
+const crawlerGeneric = require('./genericCrawler.js')(Crawler)
 crawlerGeneric
   .then(Crawler.PROMISE_SUCCESS)
   .catch(Crawler.PROMISE_ERROR)
