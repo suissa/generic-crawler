@@ -4,10 +4,18 @@ Crawler genérico.
 
 **WORK IN PROGRESS!!!**
 
+ps: Código está sendo feito em cima dessa página: [http://www.botanica.org.br/rbh-catalogo](http://www.botanica.org.br/rbh-catalogo) para iniciar.
+
+
 ## O Crawler
 
-Estou criando uma função genérica para *crawlers* onde eu preciso de algumas informações para que isso seja possível, elas são:
+Estou criando uma função genérica para *crawlers* onde eu preciso de algumas informações para que isso seja possível, basicamente elas são:
 
+- URL a ser buscada
+- Elemento HTML a se encontrar que contenha os outros valores
+- Path onde se encontram os valores
+
+Porém só isso não adianta, então vamos ver o padrão que estou criando para esse projeto.
 
 ### O Padrão
 
@@ -41,6 +49,7 @@ const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
 const rp = require('request-promise');
 const cheerio = require('cheerio')
 
+// Definimos os valores a serem achados
 const ElementList = '.tx_dados_herb'
 const Fields = [
   {
@@ -65,6 +74,7 @@ const Fields = [
   }
 ]
 
+// Definimos os valores da requisição
 const BASE_URL = 'http://www.botanica.org.br/rbh-catalogo'
 const optionsRequest = {
     uri: BASE_URL,
@@ -73,7 +83,7 @@ const optionsRequest = {
     }
 };
 
-const myRequest = rp(optionsRequest)
+// Definimos os callbacks para a Promise
 const error = (err) => {
   throw new Error(err)
 }
@@ -93,21 +103,24 @@ const success = ($) => {
   })
 }
 
+// Definimos o options
 const options = {
   conditionGetValues: (i) => i>0 && i<5,
   conditionBreakList: (i) => i >= 5
 }
 
-const crawlerGeneric = (BASE_URL, ElementList, Fields, options) => {
-  myRequest
+// Definimos o callback que executará na Promise de SUCESSO
+const callback = (obj) => { 
+  console.log('Dados: ', obj)
+  return false // necessário para sair do EACH
+}
+
+const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
+  rp(optionsRequest) // faz a requisição
   .then(success)
   .catch(error)
 }
 
-const callback = (obj) => { 
-  console.log('Dados: ', obj)
-  return false
-}
 crawlerGeneric(BASE_URL, ElementList, Fields, options, callback)
 ```
 
