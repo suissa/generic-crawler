@@ -212,7 +212,7 @@ Agora vamos ao que interessa, ao **COOODEGOOOO!**:
 
 ```js
 const CrawlerData = require('./request-promise_cheerio/crawlerData')
-const CrawlerConfig = require('./request-promise_cheerio/generateCrawlerConfig')(CrawlerData)
+const CrawlerConfig = require('./request-promise_cheerio/generateConfig')(CrawlerData)
 const crawlerGeneric = require('./request-promise_cheerio/genericCrawlerRequestCheerio')(CrawlerConfig)
 crawlerGeneric
   .then(CrawlerConfig.PROMISE_SUCCESS)
@@ -302,11 +302,15 @@ module.exports = Crawler
 
 > **Então!**
 > 
-### generateCrawlerConfig 
+### generateConfig 
 
 Esse módulo irá receber os dados de `crawlerData` e *setará* cada valor no `CrawlerFactory` e retornará o objeto com todas as configurações do *crawler*.
 
-Criei esse módulo para que possamos criar *Factories* para diferentes tipos de *crawler*, nesse caso estamos usando o `request-promise` em conjunto com o `cheerio`, porém nesse módulo nenhum deles é definido ou usado para deixá-lo genérico para o futuro:
+Criei esse módulo para que possamos criar *Factories* para diferentes tipos de *crawler*, nesse caso estamos usando o `request-promise` em conjunto com o `cheerio`, porém nesse módulo nenhum deles é definido ou usado para deixá-lo genérico para o futuro.
+
+Por isso nesse módulo nós injetamos o `CrawlerData` para usarmos a *Factory* `crawlerDataFactory`, dentro da função do módulo iremos utilizar as funções de `set` de cada atributo necessário, para depois retornar o objeto finalizado com todas as configurações necessárias.
+
+Ficando **BEM SIMPLES**, assim:
 
 ```js
 const CrawlerFactory = require('./crawlerDataFactory')
