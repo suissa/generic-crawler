@@ -172,3 +172,164 @@ const options = {
 
 Aqui começamos nossa saga para a refatoração desse *crawler* para que ele vire um módulo externo a ser importado.
 
+Para deixar bem atomizado nosso código separei em 4 partes:
+
+- crawlerData 
+- generateConfig
+- crawlerDataFactory
+- genericCrawler
+
+Além disso devemos criar 1 pasta para cada *crawler*, por exemplo para nós será: `request-promise_cheerio`
+
+Sempre mantendo o padrão:
+
+```
+moduloQueFazRequest_moduloQuePegaOsDados
+```
+
+Exemplos:
+
+- request_cheerio
+- request-promise_cheerio
+- nightmare
+
+Agora vamos ao que interessa, ao **COOODEGOOOO!**:
+
+```js
+const CrawlerData = require('./request-promise_cheerio/crawlerData')
+const CrawlerConfig = require('./request-promise_cheerio/generateCrawlerConfig')(CrawlerData)
+const crawlerGeneric = require('./request-promise_cheerio/genericCrawlerRequestCheerio')(CrawlerConfig)
+crawlerGeneric
+  .then(Crawler.PROMISE_SUCCESS)
+  .catch(Crawler.PROMISE_ERROR)
+```
+
+
+### crawlerData
+
+Módulo que exporta os dados para o *crawler*, vamos salvar em `request-promise_cheerio/crawlerData.js` o seguinte código:
+
+```js
+const cheerio = require('cheerio')
+
+const Crawler = {
+  BASE_URL: 'http://www.botanica.org.br/rbh-catalogo',
+  ElementList: '.tx_dados_herb',
+  FieldValueType: 'js',
+  Fields: [
+    {
+      name: '',
+      value: 'this.children[0].data'
+    },
+    {
+      name: 'Instituicao',
+      value: 'this.children[0].data'
+    },
+    {
+      name: 'Departamento',
+      value: 'this.children[0].data'
+    },
+    {
+      name: 'Endereco',
+      value: 'this.children[0].data'
+    },
+    {
+      name: 'MunicipioUF',
+      value: 'this.children[0].data'
+    }
+  ],
+  optionsRequest: {
+    uri: 'http://www.botanica.org.br/rbh-catalogo',
+    transform: function (body) {
+        return cheerio.load(body)
+    }
+  },
+  PROMISE_SUCCESS: ($) => {
+    let Dados = []
+    let obj = {}
+    // Aqui pegamos todos os objetos do DOM com essa classe '.tx_dados_herb'
+    // console.log('Crawler.ElementList', Crawler.ElementList)
+    $(Crawler.ElementList).each(function(i, element){
+      // O VALOR correto vem em this.children[0].data 
+      // que está em Fields[i].value por isso o eval
+      if(Crawler.options.conditionGetValues(i)) {
+        if(Crawler.FieldValueType === 'js') obj[Crawler.Fields[i].name] = eval(Crawler.Fields[i].value)
+        else obj[Crawler.Fields[i].name] = Crawler.Fields[i].value
+      }
+      else if(Crawler.options.conditionBreakList(i)) {
+        return Crawler.callback(obj)
+      }
+    })
+  },
+  PROMISE_ERROR: (err) => {
+    throw new Error(err)
+  },
+  options: {
+    conditionGetValues: (i) => i>0 && i<5,
+    conditionBreakList: (i) => i >= 5
+  },
+  callback: (obj) => { 
+    console.log('Dados: ', obj)
+    return false
+  }
+}
+
+module.exports = Crawler
+```
+
+> Percebeu porque eu separei em um módulo né?
+
+> Já imaginou ter todo esse código no seu arquivo principal?
+
+> **Então!**
+> 
+### generateCrawlerConfig 
+
+Esse módulo irá receber os dados de `crawlerData` e *setará* cada valor no `CrawlerFactory` e retornará o objeto com todas as configurações do *crawler*.
+
+Criei esse módulo para que possamos criar *Factories* para diferentes tipos de *crawler*, nesse caso estamos usando o `request-promise` em conjunto com o `cheerio`, porém nesse módulo nenhum deles é definido ou usado para deixá-lo genérico para o futuro:
+
+```js
+const CrawlerFactory = require('./crawlerDataFactory')
+
+module.exports = (CrawlerData) => {
+  CrawlerFactory.setBASE_URL(CrawlerData.BASE_URL)
+  CrawlerFactory.setElementList(CrawlerData.ElementList)
+  CrawlerFactory.setFieldValueType(CrawlerData.FieldValueType)
+  CrawlerFactory.setFields(CrawlerData.Fields)
+  CrawlerFactory.setOptionsRequest(CrawlerData.optionsRequest)
+  CrawlerFactory.setOptions(CrawlerData.options)
+  CrawlerFactory.setPROMISE_SUCCESS(CrawlerData.PROMISE_SUCCESS)
+  CrawlerFactory.setPROMISE_ERROR(CrawlerData.PROMISE_ERROR)
+  CrawlerFactory.setcallback(CrawlerData.callback)
+
+  return CrawlerFactory.getCrawler()
+}
+```
+
+> Parece até besteira criar algo assim né? Então só aguarde quando você quiser estender seu módulo para outros *crawlers* aí sim o bicho vai pegar!
+
+*ps: Sim farei módulos para outros tipos*
+
+### crawlerDataFactory
+
+### genericCrawler
+
+Salvei esse arquivo como `genericCrawler.js` na pasta `request-promise_cheerio`
+
+```js
+const rp = require('request-promise');
+const cheerio = require('cheerio')
+
+module.exports = (Crawler) => {
+  // Valores que irão para as funções internas
+  // Agora todos encapsulados no objeto Crawler
+  const BASE_URL = Crawler.BASE_URL
+  const ElementList = Crawler.ElementList
+  const Fields = Crawler.Fields
+  const options = Crawler.options
+  const callback = Crawler.callback
+
+  return rp(Crawler.optionsRequest)
+}
+``` 

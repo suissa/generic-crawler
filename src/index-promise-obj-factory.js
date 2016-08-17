@@ -1,11 +1,11 @@
 'use strict'
 
-// const CrawlerData = require('./crawlerData')
-const Crawler = require('./generateCrawlerConfig')(require('./crawlerData'))
-const crawlerGeneric = require('./genericCrawlerPromise.js')(Crawler)
+const CrawlerData = require('./request-promise_cheerio/crawlerData')
+const CrawlerConfig = require('./request-promise_cheerio/generateConfig')(CrawlerData)
+const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(CrawlerConfig)
 crawlerGeneric
-  .then(Crawler.PROMISE_SUCCESS)
-  .catch(Crawler.PROMISE_ERROR)
+  .then(CrawlerConfig.PROMISE_SUCCESS)
+  .catch(CrawlerConfig.PROMISE_ERROR)
 
 // Dados:  { Instituicao: 'UEPB (Universidade Estadual da Para�ba) ',
 // Departamento: 'Biologia',
