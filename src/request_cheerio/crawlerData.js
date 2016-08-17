@@ -38,13 +38,13 @@ const crawler = {
     let Dados = []
     let obj = {}
     // Aqui pegamos todos os objetos do DOM com essa classe '.tx_dados_herb'
-    // console.log('crawler.elementList', crawler.elementList)
-    $(crawler.elementList).each(function(i, element){
+    // console.log('crawler.ElementList', crawler.ElementList)
+    $(crawler.ElementList).each(function(i, element){
       // O VALOR correto vem em this.children[0].data 
-      // que está em fields[i].value por isso o eval
+      // que está em Fields[i].value por isso o eval
       if(crawler.options.conditionGetValues(i)) {
-        if(crawler.fieldValueType === 'js') obj[crawler.fields[i].name] = eval(crawler.fields[i].value)
-        else obj[crawler.fields[i].name] = crawler.fields[i].value
+        if(crawler.FieldValueType === 'js') obj[crawler.Fields[i].name] = eval(crawler.Fields[i].value)
+        else obj[crawler.Fields[i].name] = crawler.Fields[i].value
       }
       else if(crawler.options.conditionBreakList(i)) {
         return crawler.callback(obj)

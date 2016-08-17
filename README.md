@@ -211,8 +211,8 @@ Exemplos:
 Agora vamos ao que interessa, ao **COOODEGOOOO!**:
 
 ```js
-const CrawlerData = require('./request-promise_cheerio/crawlerData')
-const CrawlerConfig = require('./request-promise_cheerio/generateConfig')(CrawlerData)
+const crawlerData = require('./request-promise_cheerio/crawlerData')
+const CrawlerConfig = require('./request-promise_cheerio/generateConfig')(crawlerData)
 const crawlerGeneric = require('./request-promise_cheerio/genericCrawlerRequestCheerio')(CrawlerConfig)
 crawlerGeneric
   .then(CrawlerConfig.PROMISE_SUCCESS)
@@ -308,23 +308,23 @@ Esse módulo irá receber os dados de `crawlerData` e *setará* cada valor no `C
 
 Criei esse módulo para que possamos criar *Factories* para diferentes tipos de *crawler*, nesse caso estamos usando o `request-promise` em conjunto com o `cheerio`, porém nesse módulo nenhum deles é definido ou usado para deixá-lo genérico para o futuro.
 
-Por isso nesse módulo nós injetamos o `CrawlerData` para usarmos a *Factory* `crawlerDataFactory`, dentro da função do módulo iremos utilizar as funções de `set` de cada atributo necessário, para depois retornar o objeto finalizado com todas as configurações necessárias.
+Por isso nesse módulo nós injetamos o `crawlerData` para usarmos a *Factory* `crawlerDataFactory`, dentro da função do módulo iremos utilizar as funções de `set` de cada atributo necessário, para depois retornar o objeto finalizado com todas as configurações necessárias.
 
 Ficando **BEM SIMPLES**, assim:
 
 ```js
 const CrawlerFactory = require('./crawlerDataFactory')
 
-module.exports = (CrawlerData) => {
-  CrawlerFactory.setBASE_URL(CrawlerData.BASE_URL)
-  CrawlerFactory.setElementList(CrawlerData.ElementList)
-  CrawlerFactory.setFieldValueType(CrawlerData.FieldValueType)
-  CrawlerFactory.setFields(CrawlerData.Fields)
-  CrawlerFactory.setOptionsRequest(CrawlerData.optionsRequest)
-  CrawlerFactory.setOptions(CrawlerData.options)
-  CrawlerFactory.setPROMISE_SUCCESS(CrawlerData.PROMISE_SUCCESS)
-  CrawlerFactory.setPROMISE_ERROR(CrawlerData.PROMISE_ERROR)
-  CrawlerFactory.setcallback(CrawlerData.callback)
+module.exports = (crawlerData) => {
+  CrawlerFactory.setBASE_URL(crawlerData.BASE_URL)
+  CrawlerFactory.setElementList(crawlerData.ElementList)
+  CrawlerFactory.setFieldValueType(crawlerData.FieldValueType)
+  CrawlerFactory.setFields(crawlerData.Fields)
+  CrawlerFactory.setOptionsRequest(crawlerData.optionsRequest)
+  CrawlerFactory.setOptions(crawlerData.options)
+  CrawlerFactory.setPROMISE_SUCCESS(crawlerData.PROMISE_SUCCESS)
+  CrawlerFactory.setPROMISE_ERROR(crawlerData.PROMISE_ERROR)
+  CrawlerFactory.setcallback(crawlerData.callback)
 
   return CrawlerFactory.getCrawler()
 }
@@ -344,15 +344,15 @@ Salvei esse arquivo como `genericCrawler.js` na pasta `request-promise_cheerio`
 const rp = require('request-promise');
 const cheerio = require('cheerio')
 
-module.exports = (Crawler) => {
+module.exports = (crawler) => {
   // Valores que irão para as funções internas
-  // Agora todos encapsulados no objeto Crawler
-  const BASE_URL = Crawler.BASE_URL
-  const ElementList = Crawler.ElementList
-  const Fields = Crawler.Fields
-  const options = Crawler.options
-  const callback = Crawler.callback
+  // Agora todos encapsulados no objeto crawler
+  const BASE_URL = crawler.BASE_URL
+  const ElementList = crawler.ElementList
+  const Fields = crawler.Fields
+  const options = crawler.options
+  const callback = crawler.callback
 
-  return rp(Crawler.optionsRequest)
+  return rp(crawler.optionsRequest)
 }
 ``` 

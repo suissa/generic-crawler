@@ -1,17 +1,17 @@
 'use strict'
 
-const CrawlerFactory = require('./crawlerDataFactory')
+const crawlerFactory = require('./crawlerDataFactory')
 
-module.exports = (CrawlerData) => {
-  CrawlerFactory.setBASE_URL(CrawlerData.BASE_URL)
-  CrawlerFactory.setElementList(CrawlerData.ElementList)
-  CrawlerFactory.setFieldValueType(CrawlerData.FieldValueType)
-  CrawlerFactory.setFields(CrawlerData.Fields)
-  CrawlerFactory.setOptionsRequest(CrawlerData.optionsRequest)
-  CrawlerFactory.setOptions(CrawlerData.options)
-  CrawlerFactory.setPROMISE_SUCCESS(CrawlerData.PROMISE_SUCCESS)
-  CrawlerFactory.setPROMISE_ERROR(CrawlerData.PROMISE_ERROR)
-  CrawlerFactory.setcallback(CrawlerData.callback)
-
-  return CrawlerFactory.getCrawler()
+module.exports = (crawlerData) => {
+  crawlerFactory.setBASE_URL(crawlerData.BASE_URL)
+  crawlerFactory.setElementList(crawlerData.elementList)
+  crawlerFactory.setFieldValueType(crawlerData.fieldValueType)
+  crawlerFactory.setFields(crawlerData.fields)
+  crawlerFactory.setOptionsRequest(crawlerData.optionsRequest)
+  crawlerFactory.setOptions(crawlerData.options)
+  crawlerFactory.setPROMISE_SUCCESS(crawlerData.PROMISE_SUCCESS)
+  crawlerFactory.setPROMISE_ERROR(crawlerData.PROMISE_ERROR)
+  crawlerFactory.setcallback(crawlerData.callback)
+  
+  return crawlerFactory.getCrawler()
 }

@@ -1,14 +1,12 @@
-const rp = require('request-promise');
-const cheerio = require('cheerio')
+const rp = require('request-promise')
 
-module.exports = (Crawler) => {
+module.exports = (crawler) => {
   // Valores que irão para as funções internas
-  // Agora todos encapsulados no objeto Crawler
-  const BASE_URL = Crawler.BASE_URL
-  const ElementList = Crawler.ElementList
-  const Fields = Crawler.Fields
-  const options = Crawler.options
-  const callback = Crawler.callback
-
-  return rp(Crawler.optionsRequest)
+  // Agora todos encapsulados no objeto crawler
+  // const BASE_URL = crawler.BASE_URL
+  // const ElementList = crawler.elementList
+  // const Fields = crawler.fields
+  // const options = crawler.options
+  // const callback = crawler.callback
+  return rp(crawler.optionsRequest)
 }
