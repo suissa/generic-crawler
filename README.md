@@ -22,7 +22,7 @@ Porém só isso não adianta, então vamos ver o padrão que estou criando para 
 Vamos imaginar nossa função `crawlerGeneric` como deverá ser:
 
 ```js
-crawlerGeneric(BASE_URL, ElementList, Fields, options)
+crawlerGeneric(BASE_URL, elementList, fields, options)
 ```
 
 Com certeza você deve se perguntar:
@@ -32,7 +32,7 @@ Com certeza você deve se perguntar:
 **Vou explicar já já!** Antes vamos ver como ficará nossa função de *crawler*:
 
 ```js
-const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
+const crawlerGeneric = (BASE_URL, elementList, fields, options, callback) => {
   myRequest
   .then(success)
   .catch(error)
@@ -50,8 +50,8 @@ const rp = require('request-promise');
 const cheerio = require('cheerio')
 
 // Definimos os valores a serem achados
-const ElementList = '.tx_dados_herb'
-const Fields = [
+const elementList = '.tx_dados_herb'
+const fields = [
   {
     name: '',
     value: 'this.children[0].data'
@@ -91,11 +91,11 @@ const success = ($) => {
   let Dados = []
   let obj = {}
   // Aqui pegamos todos os objetos do DOM com essa classe '.tx_dados_herb'
-  $(ElementList).each(function(i, element){
+  $(elementList).each(function(i, element){
     // O VALOR correto vem em this.children[0].data 
-    // que está em Fields[i].value por isso o eval
+    // que está em fields[i].value por isso o eval
     if(options.conditionGetValues(i)) {
-      obj[Fields[i].name] = eval(Fields[i].value)
+      obj[fields[i].name] = eval(fields[i].value)
     }
     else if(options.conditionBreakList(i)) {
       return callback(obj)
@@ -115,13 +115,13 @@ const callback = (obj) => {
   return false // necessário para sair do EACH
 }
 
-const crawlerGeneric = (BASE_URL, ElementList, Fields, options, callback) => {
+const crawlerGeneric = (BASE_URL, elementList, fields, options, callback) => {
   rp(optionsRequest) // faz a requisição
   .then(success)
   .catch(error)
 }
 
-crawlerGeneric(BASE_URL, ElementList, Fields, options, callback)
+crawlerGeneric(BASE_URL, elementList, fields, options, callback)
 ```
 
 > Claro que irei explicar parte a parte!
@@ -134,21 +134,21 @@ crawlerGeneric(BASE_URL, ElementList, Fields, options, callback)
 URL a ser pesquisada
 
 
-#### ElementList
+#### elementList
 
 Nome da classe/elemento que contém a lista dos elementos que possuem os valores desejados, por exemplo:
 
 ```js
-const ElementList = '.tx_dados_herb'
-// ou const ElementList = 'p'
+const elementList = '.tx_dados_herb'
+// ou const elementList = 'p'
 ```
 
-#### Fields
+#### fields
 
 Array de Objetos que mapeiam o nome que você deseja pro valor com a seleção CSS ou JS, por exemplo:
 
 ```js
-    const Fields = [{
+    const fields = [{
     name: 'Instituicao',
     value: 'this.children[0].data'
   }]
