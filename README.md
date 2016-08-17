@@ -1,6 +1,8 @@
-# sbb-rede-brasileira-herbarios-crawler
+# Generic Crawler
 
-Cralwer para pegar os herbários daqui http://www.botanica.org.br/rbh-catalogo
+Crawler genérico.
+
+**WORK IN PROGRESS!!!**
 
 ## O Crawler
 

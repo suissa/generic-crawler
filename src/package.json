@@ -1,0 +1,29 @@
+{
+  "name": "sbb-herbarios-crawler",
+  "version": "1.0.0",
+  "description": "crawler para pegar os herbarios",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/suissa/sbb-rede-brasileira-herbarios-crawler.git"
+  },
+  "keywords": [
+    "biologia",
+    "herbario",
+    "sbb"
+  ],
+  "author": "Suissa",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/suissa/sbb-rede-brasileira-herbarios-crawler/issues"
+  },
+  "homepage": "https://github.com/suissa/sbb-rede-brasileira-herbarios-crawler#readme",
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "nightmare": "^2.6.1",
+    "request-promise": "^4.1.1"
+  }
+}
