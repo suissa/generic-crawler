@@ -129,19 +129,8 @@ const Crawler = {
   }
 }
 
-const crawlerGeneric = (Crawler) => {
-  // Valores que irão para as funções internas
-  // Agora todos encapsulados no objeto Crawler
-  const BASE_URL = Crawler.BASE_URL
-  const ElementList = Crawler.ElementList
-  const Fields = Crawler.Fields
-  const options = Crawler.options
-  const callback = Crawler.callback
-
-  return rp(Crawler.optionsRequest)
-}
-
-crawlerGeneric(Crawler)
+const crawlerGeneric = require('./genericCrawler.js')(Crawler)
+crawlerGeneric
   .then(Crawler.PROMISE_SUCCESS)
   .catch(Crawler.PROMISE_ERROR)
 
