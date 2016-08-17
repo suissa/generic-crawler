@@ -10,12 +10,14 @@ module.exports = (crawlerConfig) => {
       let Dados = []
       let obj = {}
       // Aqui pegamos todos os objetos do DOM com essa classe '.tx_dados_herb'
-      console.log('crawlerConfig.elementList)', crawlerConfig.elementList)
       $(crawlerConfig.elementList).each(function(i, element){
         // console.log('this.children[0].data', this.children[0].data)
         // O VALOR correto vem em this.children[0].data
         if(crawlerConfig.options.conditionGetValues(i)) {
-          obj[crawlerConfig.fields[i].name] = eval(crawlerConfig.fields[i].value)
+          if(crawlerConfig.fieldValueType === 'js') {
+            obj[crawlerConfig.fields[i].name] = eval(crawlerConfig.fields[i].value)
+          }
+          else obj[crawlerConfig.fields[i].name] = crawlerConfig.fields[i].value
         }
         else if(crawlerConfig.options.conditionBreakList(i)) {
           return crawlerConfig.callback(obj)
