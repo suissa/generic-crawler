@@ -139,11 +139,11 @@ const crawlerGeneric = (Crawler) => {
   const callback = Crawler.callback
 
   return rp(Crawler.optionsRequest)
-  .then(Crawler.PROMISE_SUCCESS)
-  .catch(Crawler.PROMISE_ERROR)
 }
 
 crawlerGeneric(Crawler)
+  .then(Crawler.PROMISE_SUCCESS)
+  .catch(Crawler.PROMISE_ERROR)
 
 // Dados:  { Instituicao: 'UEPB (Universidade Estadual da Para�ba) ',
 // Departamento: 'Biologia',
