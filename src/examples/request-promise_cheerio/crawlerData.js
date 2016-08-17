@@ -21,14 +21,9 @@ const crawler = {
   PROMISE_SUCCESS: ($) => {
     let Dados = []
     let obj = {}
-    // Aqui pegamos todos os objetos do DOM com essa classe '.tx_dados_herb'
-    // console.log('crawler.elementList', crawler.elementList)
     $(crawler.elementList).each(function(i, element){
       const data = $(crawler.elementList +' span[data-ng-show=true] .row pre').text()
       console.log('data', data)
-      // data.each(function(i, element){
-      //   console.log('element', element)
-      // })
     })
   },
   PROMISE_ERROR: (err) => {
