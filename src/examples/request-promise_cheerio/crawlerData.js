@@ -19,12 +19,7 @@ const crawler = {
     }
   },
   PROMISE_SUCCESS: ($) => {
-    let Dados = []
-    let obj = {}
-    $(crawler.elementList).each(function(i, element){
-      const data = $(crawler.elementList +' span[data-ng-show=true] .row pre').text()
-      console.log('data', data)
-    })
+    return require('./promiseSuccess')($, crawler)
   },
   PROMISE_ERROR: (err) => {
     throw new Error(err)
