@@ -222,7 +222,11 @@ crawlerGeneric
 
 ### crawlerData
 
-Módulo que exporta os dados para o *crawler*, vamos salvar em `request-promise_cheerio/crawlerData.js` o seguinte código:
+Módulo que exporta os dados para o *crawler*, vamos salvar em `request-promise_cheerio/crawlerData.js`.
+
+Nesse módulo só poderá importar outro caso esse seja o módulo que pega os dados da página, como o `cheerio`, não podendo haver o módulo que faz a requisição pois aqui não é o seu lugar!
+
+Logo nosso código ficou assim:
 
 ```js
 const cheerio = require('cheerio')
