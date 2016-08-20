@@ -1,7 +1,8 @@
 'use strict'
 
-const crawlerData = require('./registro.br/crawlerData')
-const crawlerConfig = require('./registro.br/generateConfig')(crawlerData)
+const SITE = 'pt.wikipedia.org'
+const crawlerData = require('./' + SITE + '/crawlerData')
+const crawlerConfig = require('./' + SITE + '/generateConfig')(crawlerData)
 const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawlerConfig)
 
 crawlerGeneric

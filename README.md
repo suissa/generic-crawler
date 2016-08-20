@@ -301,7 +301,38 @@ module.exports = Crawler
 > Já imaginou ter todo esse código no seu arquivo principal?
 
 > **Então!**
-> 
+
+Porém ainda não finalizamos, perceba que a função `PROMISE_SUCCESS` é a responsável por receber o *HTML* e procurar os valores necessários, por isso ela é **uma ótima candidata** a virar um outro módulo.
+
+> C tá de brinks eh Suissa?
+
+> Não! Acompanhe comigo no replay.
+
+Iremos separar essa lógica pois ela é uma das poucas coisas que mudam drasticamente de 1 site para o outro, logo se quisermos criar um *crawler* que seja genérico mesmo precisaremos fazer isso, mas sabe por quê?
+
+> Para que possamos ter 1 módulo para cada site, deixando o resto do código genérico.
+
+Basicamente ficará assim:
+
+```js
+PROMISE_SUCCESS: ($) => {
+  return require('./promiseSuccess')($, crawler)
+}
+```
+
+Por exemplo a função para buscar se um site existe no registro.br ficará assim:
+
+```js
+module.exports = ($, crawler) => {
+  $(crawler.elementList).each(function(i, element){
+    const data = $(crawler.elementList +' span[data-ng-show=true] .row pre').text()
+    console.log('data', data)
+    return data
+  })
+}
+```
+
+
 ### generateConfig 
 
 Esse módulo irá receber os dados de `crawlerData` e *setará* cada valor no `CrawlerFactory` e retornará o objeto com todas as configurações do *crawler*.

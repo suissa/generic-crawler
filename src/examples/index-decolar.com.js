@@ -1,7 +1,7 @@
 'use strict'
 
-const crawlerData = require('./registro.br/crawlerData')
-const crawlerConfig = require('./registro.br/generateConfig')(crawlerData)
+const crawlerData = require('./decolar.com/crawlerData')
+const crawlerConfig = require('./decolar.com/generateConfig')(crawlerData)
 const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawlerConfig)
 
 crawlerGeneric
