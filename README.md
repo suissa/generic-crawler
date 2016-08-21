@@ -99,7 +99,7 @@ crawlerGeneric
 
 ## O Crawler
 
-Estou criando uma função genérica para *crawlers* onde eu preciso de algumas informações para que isso seja possível, basicamente elas são:
+Estou criando uma função genérica para *crawlers* onde preciso de algumas informações para que isso seja possível, elas são:
 
 - URL a ser buscada
 - Elemento HTML a se encontrar que contenha os outros valores
@@ -379,7 +379,7 @@ const Crawler = {
   },
   callback: (obj) => { 
     console.log('Dados: ', obj)
-    return false
+    return true
   }
 }
 
@@ -416,7 +416,6 @@ Por exemplo a função para buscar se um site existe no registro.br ficará assi
 module.exports = ($, crawler) => {
   $(crawler.elementList).each(function(i, element){
     const data = $(crawler.elementList +' span[data-ng-show=true] .row pre').text()
-    console.log('data', data)
     return data
   })
 }
