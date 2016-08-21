@@ -1,40 +1,48 @@
 'use strict'
 
 const cheerio = require('cheerio')
-// console.log('')
-const BASE_URL = 'https://pt.wikipedia.org/wiki/%C3%81tomo'
+const BASE_URL = 'https://pt.wikipedia.org/wiki/javascript'
 console.log('BASE_URL', BASE_URL)
 const crawler = {
   BASE_URL: BASE_URL,
   elementList: '#content',
-  fieldValueType: 'css',
   fields: [
     {
       name: 'titulo',
-      value: '#firstHeading'
+      value: '#firstHeading',
+      getType: 'text',
+      valueType: 'css'
+    },
+    {
+      name: 'nota',
+      value: '.hatnote',
+      getType: 'html',
+      valueType: 'css'
+    },
+    {
+      name: 'conteudo',
+      value: '$("#mw-content-text").children("div").text()',
+      getType: 'text',
+      valueType: 'js' 
     }
   ],
   optionsRequest: {
-    uri: 'https://pt.wikipedia.org/wiki/%C3%81tomo',
+    uri: BASE_URL,
     transform: function (body) {
       return cheerio.load(body)
     }
   },
   PROMISE_SUCCESS: ($) => {
-    // Separei pois poderemos ter módulos apenas 
-    // para isso e cada 1 será para 1 site específico
     return require('./promiseSuccess')($, crawler)
   },
   PROMISE_ERROR: (err) => {
-    throw new Error(err)
+    throw new Error(err)  
   },
   options: {
-    conditionGetValues: (i) => i > 0 && i < 5,
-    conditionBreakList: (i) => i >= 5
   },
   callback: (obj) => {
     console.log('Dados: ', obj)
-    return false
+    return true
   }
 }
 
