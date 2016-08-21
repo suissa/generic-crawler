@@ -33,7 +33,7 @@ const crawler = {
   PROMISE_SUCCESS: ($) => {
     // Separei pois poderemos ter módulos apenas 
     // para isso e cada 1 será para 1 site específico
-    return require('./promiseSuccess')($, crawler)
+    return require('./promiseSuccessAbreviations')($, crawler)
   },
   PROMISE_ERROR: (err) => {
     throw new Error(err)

@@ -1,7 +1,8 @@
 'use strict'
 
-const crawlerData = require('./periodni.com/crawlerData')
-const crawlerConfig = require('./periodni.com/generateConfig')(crawlerData)
+const SITE = 'periodni.com'
+const crawlerData = require('./' + SITE + '/crawlerData')
+const crawlerConfig = require('./request-promise_cheerio/generateConfig')(crawlerData)
 const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawlerConfig)
 
 crawlerGeneric

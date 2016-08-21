@@ -8,20 +8,20 @@ const crawler = {
   fieldValueType: 'js',
   fields: [
     {
-      name: 'nome',
-      value: "$(this).children('td').eq(2).text()"
+      name: 'name',
+      value: "$(this).children('td').eq(1).children('a').text()"
     },
     {
       name: 'formula',
-      value: "$(this).children('td').eq(3).text()"
+      value: "$(this).children('td').eq(2).text()"
     },
     {
       name: 'molarMass',
-      value: "$(this).children('td').eq(4).text()"
+      value: "$(this).children('td').eq(3).text()"
     },
     {
       name: 'density',
-      value: "$(this).children('td').eq(5).text()"
+      value: "$(this).children('td').eq(4).text()"
     }
   ],
   optionsRequest: {

@@ -2,18 +2,18 @@
 
 module.exports = ($, crawler) => {
   $(crawler.elementList).each(function(i, element){
-    const abbreviation = eval(crawler.fields[0].value)
-    const compound = eval(crawler.fields[1].value)
-    const molecularFormula = eval(crawler.fields[2].value)
-    const molarMass = eval(crawler.fields[3].value)
-
+    const name = eval(crawler.fields[0].value)
+    const formula = eval(crawler.fields[1].value)
+    const molarMass = eval(crawler.fields[2].value)
+    const density = eval(crawler.fields[3].value)
+    console.log('crawler.fields[2].value', crawler.fields[2].value)
     let data = {
-      abbreviation,
-      compound,
-      molecularFormula,
-      molarMass
+      name,
+      formula,
+      molarMass,
+      density
     }
-    console.log('Abreviations', data)
+    console.log('Compounds', data)
     return data
   })
 }
