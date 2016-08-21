@@ -64,7 +64,7 @@ const crawler = {
 module.exports = crawler
 ```
 
-E o `promisseSuccess.js`:
+`promisseSuccess.js`:
 
 ```js
 module.exports = ($, crawler) => {
@@ -80,7 +80,7 @@ module.exports = ($, crawler) => {
 }
 ```
 
-E no `index.js`:
+`index.js`:
 
 ```js
 'use strict'
