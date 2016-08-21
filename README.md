@@ -69,7 +69,7 @@ E o `promisseSuccess.js`:
 ```js
 module.exports = ($, crawler) => {
   let data = {}
-  crawler.fields.forEach(function (element, index) {
+  crawler.fields.forEach( (element, index) => {
     if(element.valueType === 'js') data[element.name] = eval(element.value)
     if(element.valueType === 'css'){
       if(element.type === 'text') data[element.name] = $(element.value).text()
@@ -77,6 +77,7 @@ module.exports = ($, crawler) => {
     }
   })
   return crawler.callback(data)
+}
 ```
 
 E no `index.js`:
@@ -94,7 +95,7 @@ const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawl
 crawlerGeneric
   .then(crawlerConfig.PROMISE_SUCCESS)
   .catch(crawlerConfig.PROMISE_ERROR)
-```
+``
 
 ## O Crawler
 
