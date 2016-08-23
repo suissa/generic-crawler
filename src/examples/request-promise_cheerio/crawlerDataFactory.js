@@ -2,31 +2,35 @@
 
 let crawler = {}
 
-exports.setBASE_URL = function (val) { crawler.BASE_URL = val }
-exports.getBASE_URL = function (val) { return crawler.BASE_URL }
+module.exports = {
+  setBASE_URL:  (val) => crawler.BASE_URL = val,
+  getBASE_URL:  (val) => crawler.BASE_URL,
 
-exports.setElementList = function(val) { crawler.elementList = val}
-exports.getElementList = function() { return crawler.elementList }
+  setElementList: (val) => crawler.elementList = val,
+  getElementList: () => crawler.elementList,
 
-exports.setFieldValueType = function(val) { crawler.fieldValueType = val}
-exports.getFieldValueType = function() { return crawler.fieldValueType }
+  setFieldValueType: (val) => crawler.fieldValueType = val,
+  getFieldValueType: () => crawler.fieldValueType,
 
-exports.setFields = function(val) { crawler.fields = val}
-exports.getFields = function() { return crawler.fields }
+  setFields: (val) => crawler.fields = val,
+  getFields: () => crawler.fields,
 
-exports.setOptionsRequest = function(val) { crawler.optionsRequest = val}
-exports.getOptionsRequest = function() { return crawler.optionsRequest }
+  setOptionsRequest: (val) => crawler.optionsRequest = val,
+  getOptionsRequest: () => crawler.optionsRequest,
 
-exports.setOptions = function(val) { crawler.options = val}
-exports.getOptions = function() { return crawler.options }
+  setOptions: (val) => crawler.options = val,
+  getOptions: () => crawler.options,
 
-exports.setPROMISE_SUCCESS = function(val) { crawler.PROMISE_SUCCESS = val}
-exports.getPROMISE_SUCCESS = function() { return crawler.PROMISE_SUCCESS }
+  setPROMISE_SUCCESS: (val) => crawler.PROMISE_SUCCESS = val,
+  getPROMISE_SUCCESS: () => crawler.PROMISE_SUCCESS,
 
-exports.setPROMISE_ERROR = function(val) { crawler.PROMISE_ERROR = val}
-exports.getPROMISE_ERROR = function() { return crawler.PROMISE_ERROR }
+  setPROMISE_ERROR: (val) => crawler.PROMISE_ERROR = val,
+  getPROMISE_ERROR: () => crawler.PROMISE_ERROR,
 
-exports.setcallback = function(val) { crawler.callback = val}
-exports.getcallback = function() { return crawler.callback }
+  setCallback: (val) => crawler.callback = val,
+  getCallback: () => crawler.callback,
 
-exports.getCrawler = function() { return crawler }
+  getCrawler: () => crawler
+}
+
+

@@ -4,99 +4,6 @@ Crawler genérico.
 
 **WORK IN PROGRESS!!!**
 
-## Exemplos:
-
-### Wikipedia
-
-Exemplo simples para buscar na Wikipedia.
-
-Nossa configuação está em `crawlerData.js`:
-
-```js
-'use strict'
-
-const cheerio = require('cheerio')
-const BASE_URL = 'https://pt.wikipedia.org/wiki/javascript'
-console.log('BASE_URL', BASE_URL)
-const crawler = {
-  BASE_URL: BASE_URL,
-  elementList: '#content',
-  fields: [
-    {
-      name: 'titulo',
-      value: '#firstHeading',
-      getType: 'text',
-      valueType: 'css'
-    },
-    {
-      name: 'nota',
-      value: '.hatnote',
-      getType: 'html',
-      valueType: 'css'
-    },
-    {
-      name: 'conteudo',
-      value: '$("#mw-content-text").children("div").text()',
-      getType: 'text',
-      valueType: 'js' 
-    }
-  ],
-  optionsRequest: {
-    uri: BASE_URL,
-    transform: function (body) {
-      return cheerio.load(body)
-    }
-  },
-  PROMISE_SUCCESS: ($) => {
-    return require('./promiseSuccess')($, crawler)
-  },
-  PROMISE_ERROR: (err) => {
-    throw new Error(err)  
-  },
-  options: {
-  },
-  callback: (obj) => {
-    console.log('Dados: ', obj)
-    return true
-  }
-}
-
-module.exports = crawler
-```
-
-`promisseSuccess.js`:
-
-```js
-module.exports = ($, crawler) => {
-  let data = {}
-  crawler.fields.forEach( (element, index) => {
-    if(element.valueType === 'js') data[element.name] = eval(element.value)
-    if(element.valueType === 'css'){
-      if(element.type === 'text') data[element.name] = $(element.value).text()
-       if(element.type === 'html') data[element.name] = $(element.value).html()
-    }
-  })
-  return crawler.callback(data)
-}
-```
-
-`index.js`:
-
-```js
-'use strict'
-
-const SITE = 'pt.wikipedia.org'
-const CRAWLER = 'request-promise_cheerio'
-
-const crawlerData = require('./' + SITE + '/crawlerData')
-const crawlerConfig = require('./'+ CRAWLER +'/generateConfig')(crawlerData)
-const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawlerConfig)
-
-crawlerGeneric
-  .then(crawlerConfig.PROMISE_SUCCESS)
-  .catch(crawlerConfig.PROMISE_ERROR)
-``
-
 ## O Crawler
 
 Estou criando uma função genérica para *crawlers* onde preciso de algumas informações para que isso seja possível, elas são:
@@ -465,14 +372,100 @@ const rp = require('request-promise');
 const cheerio = require('cheerio')
 
 module.exports = (crawler) => {
-  // Valores que irão para as funções internas
-  // Agora todos encapsulados no objeto crawler
-  const BASE_URL = crawler.BASE_URL
-  const ElementList = crawler.ElementList
-  const Fields = crawler.Fields
-  const options = crawler.options
-  const callback = crawler.callback
-
   return rp(crawler.optionsRequest)
 }
 ``` 
+
+
+## Exemplos:
+
+### Wikipedia
+
+Exemplo simples para buscar na Wikipedia.
+
+Nossa configuação está em `crawlerData.js`:
+
+```js
+'use strict'
+
+const cheerio = require('cheerio')
+const BASE_URL = 'https://pt.wikipedia.org/wiki/javascript'
+console.log('BASE_URL', BASE_URL)
+const crawler = {
+  BASE_URL: BASE_URL,
+  elementList: '#content',
+  fields: [
+    {
+      name: 'titulo',
+      value: '#firstHeading',
+      getType: 'text',
+      valueType: 'css'
+    },
+    {
+      name: 'nota',
+      value: '.hatnote',
+      getType: 'html',
+      valueType: 'css'
+    },
+    {
+      name: 'conteudo',
+      value: '$("#mw-content-text").children("div").text()',
+      getType: 'text',
+      valueType: 'js' 
+    }
+  ],
+  optionsRequest: {
+    uri: BASE_URL,
+    transform: function (body) {
+      return cheerio.load(body)
+    }
+  },
+  PROMISE_SUCCESS: ($) => {
+    return require('./promiseSuccess')($, crawler)
+  },
+  PROMISE_ERROR: (err) => {
+    throw new Error(err)  
+  },
+  options: {
+  },
+  callback: (obj) => {
+    console.log('Dados: ', obj)
+    return true
+  }
+}
+
+module.exports = crawler
+```
+
+`promisseSuccess.js`:
+
+```js
+module.exports = ($, crawler) => {
+  let data = {}
+  crawler.fields.forEach( (element, index) => {
+    if(element.valueType === 'js') data[element.name] = eval(element.value)
+    if(element.valueType === 'css'){
+      if(element.type === 'text') data[element.name] = $(element.value).text()
+       if(element.type === 'html') data[element.name] = $(element.value).html()
+    }
+  })
+  return crawler.callback(data)
+}
+```
+
+`index.js`:
+
+```js
+'use strict'
+
+const SITE = 'pt.wikipedia.org'
+const CRAWLER = 'request-promise_cheerio'
+
+const crawlerData = require('./' + SITE + '/crawlerData')
+const crawlerConfig = require('./'+ CRAWLER +'/generateConfig')(crawlerData)
+const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawlerConfig)
+
+crawlerGeneric
+  .then(crawlerConfig.PROMISE_SUCCESS)
+  .catch(crawlerConfig.PROMISE_ERROR)
+``

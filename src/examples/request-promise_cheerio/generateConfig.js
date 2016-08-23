@@ -11,7 +11,7 @@ module.exports = (crawlerData) => {
   crawlerFactory.setOptions(crawlerData.options)
   crawlerFactory.setPROMISE_SUCCESS(crawlerData.PROMISE_SUCCESS)
   crawlerFactory.setPROMISE_ERROR(crawlerData.PROMISE_ERROR)
-  crawlerFactory.setcallback(crawlerData.callback)
+  crawlerFactory.setCallback(crawlerData.callback)
   
   return crawlerFactory.getCrawler()
 }
