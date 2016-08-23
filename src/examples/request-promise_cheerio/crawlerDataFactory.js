@@ -9,9 +9,6 @@ module.exports = {
   setElementList: (val) => crawler.elementList = val,
   getElementList: () => crawler.elementList,
 
-  setFieldValueType: (val) => crawler.fieldValueType = val,
-  getFieldValueType: () => crawler.fieldValueType,
-
   setFields: (val) => crawler.fields = val,
   getFields: () => crawler.fields,
 

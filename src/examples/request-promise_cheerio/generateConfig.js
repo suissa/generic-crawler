@@ -5,7 +5,6 @@ const crawlerFactory = require('./crawlerDataFactory')
 module.exports = (crawlerData) => {
   crawlerFactory.setBASE_URL(crawlerData.BASE_URL)
   crawlerFactory.setElementList(crawlerData.elementList)
-  crawlerFactory.setFieldValueType(crawlerData.fieldValueType)
   crawlerFactory.setFields(crawlerData.fields)
   crawlerFactory.setOptionsRequest(crawlerData.optionsRequest)
   crawlerFactory.setOptions(crawlerData.options)

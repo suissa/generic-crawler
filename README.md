@@ -14,156 +14,9 @@ Estou criando uma função genérica para *crawlers* onde preciso de algumas inf
 
 Porém só isso não adianta, então vamos ver o padrão que estou criando para esse projeto.
 
-### O Padrão
-
-Vamos imaginar nossa função `crawlerGeneric` como deverá ser:
-
-```js
-crawlerGeneric(BASE_URL, elementList, fields, options)
-```
-
-Com certeza você deve se perguntar:
-
-> WTF são esses parâmetros?
-
-**Vou explicar já já!** Antes vamos ver como ficará nossa função de *crawler*:
-
-```js
-const crawlerGeneric = (BASE_URL, elementList, fields, options, callback) => {
-  myRequest
-  .then(success)
-  .catch(error)
-}
-```
-
-![mind blow](https://media.giphy.com/media/4A49DBPhSYRTW/giphy.gif)
-
-> SIM! Estou usando promises, mas como?
-
-**Muito fácil!** Com o módulo `request-promise`, ficando assim:
-
-```js
-const rp = require('request-promise');
-const cheerio = require('cheerio')
-
-// Definimos os valores a serem achados
-const elementList = '.tx_dados_herb'
-const fields = [
-  {
-    name: '',
-    value: 'this.children[0].data'
-  },
-  {
-    name: 'Instituicao',
-    value: 'this.children[0].data'
-  },
-  {
-    name: 'Departamento',
-    value: 'this.children[0].data'
-  },
-  {
-    name: 'Endereco',
-    value: 'this.children[0].data'
-  },
-  {
-    name: 'MunicipioUF',
-    value: 'this.children[0].data'
-  }
-]
-
-// Definimos os valores da requisição
-const BASE_URL = 'http://www.botanica.org.br/rbh-catalogo'
-const optionsRequest = {
-    uri: BASE_URL,
-    transform: function (body) {
-        return cheerio.load(body);
-    }
-};
-
-// Definimos os callbacks para a Promise
-const error = (err) => {
-  throw new Error(err)
-}
-const success = ($) => {
-  let Dados = []
-  let obj = {}
-  // Aqui pegamos todos os objetos do DOM com essa classe '.tx_dados_herb'
-  $(elementList).each(function(i, element){
-    // O VALOR correto vem em this.children[0].data 
-    // que está em fields[i].value por isso o eval
-    if(options.conditionGetValues(i)) {
-      obj[fields[i].name] = eval(fields[i].value)
-    }
-    else if(options.conditionBreakList(i)) {
-      return callback(obj)
-    }
-  })
-}
-
-// Definimos o options
-const options = {
-  conditionGetValues: (i) => i>0 && i<5,
-  conditionBreakList: (i) => i >= 5
-}
-
-// Definimos o callback que executará na Promise de SUCESSO
-const callback = (obj) => { 
-  console.log('Dados: ', obj)
-  return false // necessário para sair do EACH
-}
-
-const crawlerGeneric = (BASE_URL, elementList, fields, options, callback) => {
-  rp(optionsRequest) // faz a requisição
-  .then(success)
-  .catch(error)
-}
-
-crawlerGeneric(BASE_URL, elementList, fields, options, callback)
-```
-
 > Claro que irei explicar parte a parte!
 
-
 ![TE AMO](https://media.giphy.com/media/26BRsVk2noIIPHjKU/giphy.gif)
-
-#### BASE_URL
-
-URL a ser pesquisada
-
-
-#### elementList
-
-Nome da classe/elemento que contém a lista dos elementos que possuem os valores desejados, por exemplo:
-
-```js
-const elementList = '.tx_dados_herb'
-// ou const elementList = 'p'
-```
-
-#### fields
-
-Array de Objetos que mapeiam o nome que você deseja pro valor com a seleção CSS ou JS, por exemplo:
-
-```js
-    const fields = [{
-    name: 'Instituicao',
-    value: 'this.children[0].data'
-  }]
-```
-
-
-#### options
-
-Objeto com valores e funções opcionais, por exemplo:
-
-```js
-const options = {
-  conditionGetValues: (i) => i>0 && i<5,
-  conditionBreakList: (i) => i >= 5
-}
-```
-
-#### callback
 
 ## Generic Crawler - A Ideia
 
@@ -374,7 +227,52 @@ const cheerio = require('cheerio')
 module.exports = (crawler) => {
   return rp(crawler.optionsRequest)
 }
-``` 
+```
+
+#### BASE_URL
+
+URL a ser pesquisada. Podendo ser tanto `http` como `https`:
+
+- https://pt.wikipedia.org/wiki/javascript
+- https://registro.br/cgi-bin/whois/?qr=testecrawler.com.br
+- http://www.periodni.com/solcalc-chemical_compounds.html
+
+
+#### elementList
+
+Nome da classe/elemento que contém a lista dos elementos que possuem os valores desejados, por exemplo:
+
+```js
+const elementList = '.tx_dados_herb'
+// ou const elementList = 'p'
+```
+
+
+
+#### fields
+
+Array de Objetos que mapeiam o nome que você deseja pro valor com a seleção CSS ou JS, por exemplo:
+
+```js
+    const fields = [{
+    name: 'Instituicao',
+    value: 'this.children[0].data'
+  }]
+```
+
+
+#### options
+
+Objeto com valores e funções opcionais, por exemplo:
+
+```js
+const options = {
+  conditionGetValues: (i) => i>0 && i<5,
+  conditionBreakList: (i) => i >= 5
+}
+```
+
+#### callback
 
 
 ## Exemplos:
@@ -468,4 +366,5 @@ const crawlerGeneric = require('./request-promise_cheerio/genericCrawler')(crawl
 crawlerGeneric
   .then(crawlerConfig.PROMISE_SUCCESS)
   .catch(crawlerConfig.PROMISE_ERROR)
-``
+```
+
