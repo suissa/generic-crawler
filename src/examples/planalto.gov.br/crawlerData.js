@@ -9,7 +9,7 @@ const crawler = {
   fields: [
     {
       name: 'lei',
-      value: 'p',
+      value: 'p[align="justify"]',
       getType: 'text',
       valueType: 'css'
     }
