@@ -29,7 +29,7 @@ const crawler = {
   options: {
   },
   callback: (obj) => {
-    console.log('Dados: ', obj)
+    console.log('Leis para serem armazenadas: ', obj)
     return true
   }
 }
