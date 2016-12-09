@@ -1,4 +1,8 @@
-'use strict'
+const mongoose = require('mongoose')
+mongoose.connect('mongodb://localhost/leis')
+
+const schema = new mongoose.Schema({ texto: 'string'})
+const Lei = mongoose.model('Lei', schema)
 
 const cheerio = require('cheerio')
 const BASE_URL = 'http://www.planalto.gov.br/ccivil_03/Leis/LEIS_2001/L10257.htm'
@@ -29,7 +33,12 @@ const crawler = {
   options: {
   },
   callback: (obj) => {
-    console.log('Leis para serem armazenadas: ', obj)
+    console.log('Leis para serem armazenadas: ', obj.leis.length, Array.from(obj.leis[0]))
+    // obj.leis[0].forEach((el, i) => console.log('el', el))
+    Array.from(obj.leis[0]).forEach((el, i) => 
+      Lei.create({texto: el})
+        .then((data) => console.log('ARMAZENEI ISSO: ', data))
+    )
     return true
   }
 }
