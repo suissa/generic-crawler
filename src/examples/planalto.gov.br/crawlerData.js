@@ -33,8 +33,6 @@ const crawler = {
   options: {
   },
   callback: (obj) => {
-    console.log('Leis para serem armazenadas: ', obj.leis.length, Array.from(obj.leis[0]))
-    // obj.leis[0].forEach((el, i) => console.log('el', el))
     Array.from(obj.leis[0]).forEach((el, i) => 
       Lei.create({texto: el})
         .then((data) => console.log('ARMAZENEI ISSO: ', data))
