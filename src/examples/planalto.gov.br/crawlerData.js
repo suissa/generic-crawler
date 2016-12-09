@@ -33,10 +33,10 @@ const crawler = {
   options: {
   },
   callback: (obj) => {
-    Array.from(obj.leis[0]).forEach((el, i) => 
-      Lei.create({texto: el})
-        .then((data) => console.log('ARMAZENEI ISSO: ', data))
-    )
+    // Array.from(obj.leis[0]).forEach((el, i) => 
+    //   Lei.create({texto: el})
+    //     .then((data) => console.log('ARMAZENEI ISSO: ', data))
+    // )
     return true
   }
 }

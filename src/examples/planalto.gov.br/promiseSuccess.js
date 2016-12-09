@@ -1,8 +1,9 @@
 const removeThrash = (leis) => {
-  delete leis.options
-  delete leis.prevObject 
-  delete leis._root
-  return leis
+  let _leis = Object.assign({}, leis)
+  delete _leis.options
+  delete _leis.prevObject 
+  delete _leis._root
+  return _leis
 }
 
 module.exports = ($, crawler) => {
@@ -10,17 +11,19 @@ module.exports = ($, crawler) => {
     leis: []
   }
 
-  data.leis = crawler.fields.map( (element, index) => {
-    if(element.valueType === 'js') return eval(element.value)
-    if(element.valueType === 'css'){
-      if(element.getType === 'text') 
-        return $(element.value).map((i, el) => $(el).text())
-      if(element.getType === 'html') return $(element.value).html()
-    }
-  })
-  let leis = removeThrash(data.leis[0])
- // console.log('leis', leis)
- // dataa.leis = leis
-  data.leis[0] = leis
+  const getByJS = (element) => eval(element.value)
+  const getText = (element) => $(element.value).map((i, el) => $(el).text())
+  const getHTML = (element) => $(element.value).html()
+  const getByCSS = (element) => (element.getType === 'text') 
+                                  ? getText(element)
+                                  : getHTML(element)
+
+  let _leis = crawler.fields.map( (element, index) => 
+    (element.valueType === 'js') 
+      ? getByJS(element) 
+      : getByCSS(element)
+  )
+  data.leis = removeThrash(_leis[0])
+ console.log('data', data)
   return crawler.callback(data)
 }
